@@ -1,0 +1,41 @@
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import store from './store';
+
+import Main from './scenes/notes/scenes/main';
+import Archive from './scenes/notes/scenes/archive';
+import TrashCan from './scenes/notes/scenes/trash-can';
+import Note from './scenes/note';
+import Search from './scenes/search';
+import About from './scenes/about';
+import Test from './components/Test';
+// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+class App extends Component {
+  render() {
+    return (
+      
+    <Provider store={store}>
+      <React.Fragment>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Main}/>
+            <Route exact path="/archive" component={Archive}/>
+            <Route exact path="/trash" component={TrashCan}/>
+            <Route exact path="/note/:id?" component={Note}/>
+            <Route exact path="/search" component={Search}/>
+            <Route exact path="/about" component={About}/>
+            <Route exact path="/test" component={Test}/>
+            <Route component={Test}/>
+          </Switch>
+        </Router>
+      </React.Fragment>
+    </Provider>
+      
+    );
+  }
+}
+
+export default App;
