@@ -11,15 +11,12 @@ import NoteData from '../../../../entities/NoteData';
 
 NoteInfo.propTypes = {
   state: PropTypes.string.isRequired,
-  time: PropTypes.object.isRequired
+  mTime: PropTypes.object.isRequired,
+  dTime: PropTypes.object.isRequired,
+  cTime: PropTypes.object.isRequired,
 }
 
-export default function NoteInfo(props) {
-  const { state } = props;
-  const {mTime, cTime, dTime} = props.time;
-
-
-  let info;
+export default function NoteInfo({state, mTime, cTime, dTime}) {
 
   // get how much time has passed since last modification
   function getTimeSinceLastModification() {
@@ -51,6 +48,7 @@ export default function NoteInfo(props) {
       );
   }
 
+  let info;
   switch (state) {
     case noteState.READING:
       info = getTimeSinceLastModification();

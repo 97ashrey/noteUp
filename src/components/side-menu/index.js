@@ -19,6 +19,7 @@ class SideMenu extends Component {
     return (
       <React.Fragment>
         <IconButton 
+          style={{marginLeft: '-12px', marginRight: '10px'}}
           icon={iconType.menu}
           color="inherit" aria-label="Menu"
           onClick={this.toggleDrawer('left', true)}/>

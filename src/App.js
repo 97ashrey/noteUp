@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -11,6 +11,7 @@ import Note from './scenes/note';
 import Search from './scenes/search';
 import About from './scenes/about';
 import Test from './components/Test';
+import NotFound from './scenes/404';
 // import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 class App extends Component {
@@ -28,7 +29,7 @@ class App extends Component {
             <Route exact path="/search" component={Search}/>
             <Route exact path="/about" component={About}/>
             <Route exact path="/test" component={Test}/>
-            <Route component={Test}/>
+            <Route component={NotFound}/>
           </Switch>
         </Router>
       </React.Fragment>

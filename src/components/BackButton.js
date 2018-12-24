@@ -9,6 +9,7 @@ const BackButton = (props) => {
   }
   return (
     <IconButton 
+    style={{marginLeft: '-12px', marginRight: '10px'}}
       icon={iconType.arrowBack}
       onClick={goBack}/>
   );

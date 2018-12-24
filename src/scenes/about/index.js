@@ -5,7 +5,7 @@ import HeaderWrapper from '../../components/HeaderWrapper';
 import SideMenu from '../../components/side-menu';
 import Section from '../../components/Section';
 
-export default function About() {
+function About() {
   return (
     <React.Fragment>
       <HeaderWrapper>
@@ -33,3 +33,5 @@ export default function About() {
     </React.Fragment>
   )
 }
+
+export default About;

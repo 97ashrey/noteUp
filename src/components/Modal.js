@@ -6,10 +6,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const Modal = (props)=>{
-  const { handleClose } = props
-  const { open, title, message ,yesCallback, noCallback } = props.data;
-  
+const Modal = ({handleClose, open = false, title, message ,yesCallback, noCallback})=>{
+ 
   function yesClick(){
     if(yesCallback){
       yesCallback();

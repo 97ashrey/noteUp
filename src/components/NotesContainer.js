@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import {padding} from '../../Section';
+import {padding} from './Section';
 
 const NotesContainer = styled.div`
   flex: 1;

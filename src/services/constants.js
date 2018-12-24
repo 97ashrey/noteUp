@@ -10,8 +10,20 @@ export const sortBy = {
   AZ: "AZ"
 }
 
-export const sortPage = {
+export const page = {
   main: 'main',
   archive: 'archive',
-  trash: 'trash'
+  trash: 'trash',
+  search: 'search',
+  about: 'about'
+}
+
+export const ButtonName = {
+  DELETE: "DELETE",
+  DELETE_FOREVER: "DELETE_FOREVER",
+  EDIT: "EDIT",
+  RESTORE: "RESTORE",
+  UNDO: "UNDO",
+  ARCHIVE: "ARCHIVE",
+  UNARCHIVE: "UNARCHIVE"
 }

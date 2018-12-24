@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 
-import Section from '../../components/Section';
-import Notes from '../../components/notes';
-
 import Header from './components/Header';
- 
+import Section from '../../components/Section';
+import NotesContainer from '../../components/NotesContainer';
+import NoteItem from '../../components/note-item';
+
+import  { page } from '../../services/constants';
 
 class Search extends Component {
-  constructor(){
-    super();
-
+  constructor(props){
+    super(props);
     this.state = {
       search: ''
     }
@@ -28,19 +26,21 @@ class Search extends Component {
     return (search !== '')? (body.toLowerCase().includes(search) || title.toLowerCase().includes(search)): false;
   }
   render() {
+    const { notes } = this.props;
+    const notesToRender = notes.filter(this.filter);
     return (
       <React.Fragment>
         <Header onChangeHandler={this.onChangeHandler}/>
         <Section>
-          <Notes changed={this.state.search} filter={this.filter}/>
+          <NotesContainer>
+            {notesToRender.map(note => 
+              <NoteItem key={note.id} noteData={note}/>
+            )}
+          </NotesContainer>
         </Section>
       </React.Fragment>
     )
   }
-}
-
-Search.propTypes = {
-  notes: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) =>({

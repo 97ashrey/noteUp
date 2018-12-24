@@ -1,12 +1,15 @@
 import React from 'react'
-
+import PropTypes from 'prop-types';
 import Input from '@material-ui/core/Input';
 
 import HeaderWrapper from '../../../components/HeaderWrapper';
 import BackButton from '../../../components/BackButton';
 
+Header.propTypes = {
+  onChangeHandler: PropTypes.func.isRequired
+}
 
-export default function Header(props) {
+function Header(props) {
   const { onChangeHandler } = props;
   return (
     <HeaderWrapper>
@@ -21,3 +24,5 @@ export default function Header(props) {
     </HeaderWrapper>
    )
 }
+
+export default Header;

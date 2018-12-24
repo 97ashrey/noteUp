@@ -14,7 +14,8 @@ import Message from './components/Message';
 import Modal from '../../components/Modal';
 
 import NoteData from '../../entities/NoteData';
-import { noteState, name as BtnName } from './services/constants';
+import { noteState } from './services/constants';
+import { ButtonName } from '../../services/constants'
 
 class Note extends Component {
   constructor(props) {
@@ -240,7 +241,7 @@ class Note extends Component {
   openModalHandler = (e) => {
     const name = this.findName(e.target);
     switch (name) {
-      case BtnName.DELETE:
+      case ButtonName.DELETE:
         this.openModal({
           yesCallback: this.deleteNote,
           noCallBack: null,
@@ -248,7 +249,7 @@ class Note extends Component {
           message: 'Move note to the trash can?'
         });
         break;
-      case BtnName.DELETE_FOREVER:
+      case ButtonName.DELETE_FOREVER:
         this.openModal({
           yesCallback: this.deleteNoteForever,
           noCallBack: null,
@@ -256,7 +257,7 @@ class Note extends Component {
           message: 'Permanently delete note?'
         });
         break;
-      case BtnName.RESTORE:
+      case ButtonName.RESTORE:
         this.openModal({
           yesCallback: this.restoreNote,
           noCallBack: null,
@@ -264,7 +265,7 @@ class Note extends Component {
           message: 'Do you want to restore note?'
         });
         break;
-      case BtnName.UNDO:
+      case ButtonName.UNDO:
         this.openModal({
           yesCallback: this.undoChanges,
           noCallBack: null,
@@ -272,7 +273,7 @@ class Note extends Component {
           message: 'Undo changes?'
         });
         break;
-      case BtnName.ARCHIVE:
+      case ButtonName.ARCHIVE:
         this.openModal({
           yesCallback: this.archiveNote,
           noCallBack: null,
@@ -280,7 +281,7 @@ class Note extends Component {
           message: 'Archive note?'
         });
         break;
-      case BtnName.UNARCHIVE:
+      case ButtonName.UNARCHIVE:
         this.openModal({
           yesCallback: this.restoreNote,
           noCallBack: null,
@@ -307,54 +308,55 @@ class Note extends Component {
       return (
         <Redirect to="/" />
       );
-
-
+    // get data from state
     const { noteData, title, body, state, undo, newNote, message, modal } = this.state;
-
-    const btnFunctions = {
+    // store component props
+    const headerProps = {
+      title,
+      noteDataState: noteData.state,
+      state,
+      undo,
+      onTitleChange: this.handleOnChange,
       saveNote: this.saveNote,
       editNote: this.editNote,
       openModal: this.openModalHandler
     }
 
-    const infoState = (noteData.state === NoteData.State().deleted) ? noteData.state : state;
-
-    const infoTime = {
+    const infoProps = {
+      state: (noteData.state === NoteData.State().deleted) ? noteData.state : state,
       cTime: noteData.cTime,
       mTime: noteData.mTime,
       dTime: noteData.dTime
     }
+
+    const textAreaProps = {
+      autoFocus: newNote ? true : false,
+      autoComplete: "off",
+      autoCapitalize: "off",
+      autoCorrect: "of",
+      spellCheck:"false",
+      name:"body",
+      value: body,
+      readOnly: state === noteState.READING,
+      onChange: this.handleOnChange,
+      ref: input => (this.bodyInput = input),
+    }
+
+    // adding the close function to modal properties
+    modal.handleClose = this.closeModal;
+    
     return (
       <React.Fragment>
-        <Header title={title}
-          noteDataState={noteData.state}
-          state={state}
-          undo={undo}
-          btnFunctions={btnFunctions}
-          onTitleChange={this.handleOnChange} />
-
-
+        <Header {...headerProps} />
         <Section>
-          <NoteInfo state={infoState}
-            time={infoTime}
-          />
-          <TextArea 
-            autoFocus={newNote ? true : false}
-            autoComplete="off"
-            autoCapitalize="off"
-            autoCorrect="of"
-            spellCheck="false"
-            name="body" value={body}
-            readOnly={state === noteState.READING}
-            onChange={this.handleOnChange}
-            ref={input => (this.bodyInput = input)} />
+          <NoteInfo {...infoProps}/>
+          <TextArea {...textAreaProps}/>
         </Section>
 
         <Modal
-          handleClose={this.closeModal}
-          data={modal}
+          {...modal}
         />
-        {(message !== '') ? <Message>{message}</Message> : null}
+        {(message !== '') && <Message>{message}</Message>}
       </React.Fragment>
     );
   }

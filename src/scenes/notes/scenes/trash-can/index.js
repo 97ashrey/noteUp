@@ -5,12 +5,14 @@ import { deleteAllNotes } from '../../../../actions/notesActions';
 
 import Section from '../../../../components/Section';
 import NoteDisplayOptions from '../../components/note-display-options';
-import Notes from '../../../../components/notes';
+import Notes from '../../components/notes';
 import Header from './components/Header';
 import NoteData from '../../../../entities/NoteData';
 
 import Modal from '../../../../components/Modal';
 import SortPageSetter from '../../components/SortPageSetter';
+
+import { page } from '../../../../services/constants';
 
 class TrashCan extends Component {
 
@@ -51,21 +53,20 @@ class TrashCan extends Component {
     return note.state === NoteData.State().deleted;
   }
 
-
   render(){
     const {modal} = this.state;
+    modal.handleClose = this.closeModal;
+
     return (
       <React.Fragment>
-        <SortPageSetter sortPage="trash"/>
-
+        <SortPageSetter sortPage={page.trash}/>
         <Header deleteClick={this.openModal}/>
         <Section>
           <NoteDisplayOptions/>
-          <Notes filter={this.filter}/> 
+          <Notes page={page.trash} filter={this.filter}/> 
         </Section>
 
-        <Modal  handleClose={this.closeModal}
-                data={modal}
+        <Modal  {...modal}
         />
       </React.Fragment>
     )

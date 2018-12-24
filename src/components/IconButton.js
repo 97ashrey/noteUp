@@ -2,6 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import {default as IButton} from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import DeleteForever from '@material-ui/icons/DeleteForever';
@@ -13,6 +14,8 @@ import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import Done from '@material-ui/icons/Done';
+import BorderClear from '@material-ui/icons/BorderClear';
 
 export const iconType = {
   save: "SAVE",
@@ -25,16 +28,24 @@ export const iconType = {
   add: "ADD",
   search: "SEARCH",
   menu: "MENU",
-  arrowBack: "ARROW_BACK"
+  arrowBack: "ARROW_BACK",
+  done: "DONE",
+  borderClear: 'BORDER_CLEAR'
 }
 
 IconButton.propTpes= {
   icon: PropTypes.string.isRequired
 }
 
-function IconButton ({icon, ...restProps}){
+function IconButton ({icon, block, ...restProps}){
   let i;
   switch (icon) {
+    case iconType.borderClear:
+    i = <BorderClear/>
+    break;
+    case iconType.done:
+    i = <Done/>
+    break;
     case iconType.arrowBack:
     i = <ArrowBack/>
     break;
@@ -70,6 +81,11 @@ function IconButton ({icon, ...restProps}){
       break;
   }
   return(
+    (block === true)?
+    <Button {...restProps}>
+      {i}
+    </Button>
+    :
     <IButton {...restProps}>
       {i}
     </IButton>
