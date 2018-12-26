@@ -7,7 +7,7 @@ import Section from '../../../../components/Section';
 
 import NoteData from '../../../../entities/NoteData';
 
-import SortPageSetter from '../../components/SortPageSetter';
+import withSortPageSetter from '../../HOC/SortPageSetter';
 import { page } from '../../../../services/constants';
 
 function Main(){
@@ -23,9 +23,8 @@ function Main(){
         <NoteDisplayOptions/>
         <Notes page={page.main} filter={filter}/>
       </Section>
-      <SortPageSetter sortPage={page.main}/>
     </React.Fragment>
   );
 }
 
-export default Main;
+export default withSortPageSetter(page.main)(Main);

@@ -9,43 +9,18 @@ import Notes from '../../components/notes';
 import Header from './components/Header';
 import NoteData from '../../../../entities/NoteData';
 
-import Modal from '../../../../components/Modal';
-import SortPageSetter from '../../components/SortPageSetter';
+import withSortPageSetter from '../../HOC/SortPageSetter';
 
 import { page } from '../../../../services/constants';
 
+import withModalControlls from '../../../../HOC/modalControlls';
+
 class TrashCan extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      modal: {
-        open: false,
-        yesCallback: null,
-        noCallBack: null,
-        title: '',
-        message: ''
-      }
-    }
-  }
-
-  openModal = () =>{
-    this.setState({
-      modal: {
-        open: true,
+  deleteClick = () =>{
+    this.props.openModal({
         yesCallback: this.props.deleteAllNotes,
-        noCallBack: null,
         title: 'Delete',
         message: 'Delete all notes in the trash can?'
-      }
-    })
-  }
-
-  closeModal = () =>{
-    const { modal } = this.state;
-    modal.open = false;
-    this.setState({
-      modal
     })
   }
 
@@ -54,20 +29,13 @@ class TrashCan extends Component {
   }
 
   render(){
-    const {modal} = this.state;
-    modal.handleClose = this.closeModal;
-
     return (
       <React.Fragment>
-        <SortPageSetter sortPage={page.trash}/>
-        <Header deleteClick={this.openModal}/>
+        <Header deleteClick={this.deleteClick}/>
         <Section>
           <NoteDisplayOptions/>
           <Notes page={page.trash} filter={this.filter}/> 
         </Section>
-
-        <Modal  {...modal}
-        />
       </React.Fragment>
     )
   }
@@ -80,4 +48,4 @@ TrashCan.propTypes = {
 const mapDispatchToProps = {
   deleteAllNotes
 }
-export default connect(null,mapDispatchToProps)(TrashCan);
+export default withSortPageSetter(page.trash)(withModalControlls(connect(null,mapDispatchToProps)(TrashCan)));

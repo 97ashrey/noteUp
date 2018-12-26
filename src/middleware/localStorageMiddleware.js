@@ -8,8 +8,10 @@ const localStorageMiddleware = ({getState}) => { // <--- FOCUS HERE
       const index = interest.indexOf(type);
       if(index !== -1){ 
         console.log("Local storage middleware");
+        const state = {...getState()};
+        delete state.selectionMode;
         localStorage.setItem('applicationState', JSON.stringify(
-            getState()
+            state
         ));
       }
       return result;

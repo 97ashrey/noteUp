@@ -9,3 +9,5 @@ export const SET_VIEW = "SET_VIEW";
 export const SET_SORT = "SET_SORT";
 export const SET_SORT_PAGE = "SET_SORT_PAGE";
 
+export const SET_SELECTION_MODE = "SET_SELECTION_MODE";
+

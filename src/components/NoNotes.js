@@ -6,6 +6,7 @@ const NoNotes = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1.2em;
+  text-align: center;
 `;
 
 export default NoNotes;

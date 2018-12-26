@@ -8,10 +8,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-
 import TabContainer from './components/TabContainer';
 import ViewOptionsList from './components/ViewOptionsList';
 import SortOptionsList from './components/SortOptionsList';
+
 class OptionsModal extends React.Component {
   state = {
     value: 0,

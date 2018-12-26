@@ -5,7 +5,7 @@ import NoteDisplayOptions from '../../components/note-display-options';
 import Notes from '../../components/notes';
 import Header from './components/Header';
 import NoteData from '../../../../entities/NoteData';
-import SortPageSetter from '../../components/SortPageSetter';
+import withSortPageSetter from '../../HOC/SortPageSetter';
 import { page } from '../../../../services/constants';
 
 
@@ -16,8 +16,6 @@ function Archive() {
 
   return (
     <React.Fragment>
-        <SortPageSetter sortPage={page.archive}/>
-
       <Header/>
       <Section>
       <NoteDisplayOptions/>
@@ -27,4 +25,4 @@ function Archive() {
   )
 }
 
-export default Archive;
+export default withSortPageSetter(page.archive)(Archive);

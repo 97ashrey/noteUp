@@ -9,13 +9,15 @@ import Section from '../../components/Section';
 import Header from './components/header';
 import NoteInfo from './components/note-info'
 import TextArea from './components/TextArea';
-import Message from './components/Message';
 
-import Modal from '../../components/Modal';
+import openModalHandler from '../../HOC/openModalHandler';
+import messageControlls from '../../HOC/messageControlls';
+import blockNavigation from '../../HOC/blockNavigation';
 
 import NoteData from '../../entities/NoteData';
 import { noteState } from './services/constants';
 import { ButtonName } from '../../services/constants'
+
 
 class Note extends Component {
   constructor(props) {
@@ -31,15 +33,44 @@ class Note extends Component {
       redirect: false,
       undo: false,
       newNote: false,
-      message: '',
-      modal: {
-        open: false,
-        yesCallback: null,
-        noCallBack: null,
-        title: '',
-        message: ''
+    }
+
+    const { DELETE, DELETE_FOREVER, RESTORE, UNDO, ARCHIVE, UNARCHIVE } = ButtonName;
+    const handler = {
+      [DELETE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(DELETE)},
+        title: 'Delete',
+        message: 'Move note to the trash can?'
+      },
+      [DELETE_FOREVER] : {
+        yesCallback: this.deleteNoteForever,
+        title: 'Permanently delete',
+        message: 'Permanently delete note?'
+      },
+      [RESTORE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(RESTORE)},
+        title: 'RESTORE',
+        message: 'Do you want to restore note?'
+      },
+      [UNDO] : {
+        yesCallback: this.undoChanges,
+        title: 'Undo',
+        message: 'Undo changes?'
+      },
+      [ARCHIVE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(ARCHIVE)},
+        title: 'Archive',
+        message: 'Archive note?'
+      },
+      [UNARCHIVE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(RESTORE)},
+        title: 'Unarchive',
+        message: 'Unarchive note?'
       }
     }
+    this.openModalHandler = props.openModalHandler.bind(this,handler);
+    props.setWhen(this.when);
+    props.setOnBlock(this.onBlock);
   }
 
   componentWillMount() {
@@ -74,25 +105,37 @@ class Note extends Component {
     });
   }
 
-  componentDidMount() {
-    this.unblock = this.props.history.block(() => {
-      const { state, modal, newNote } = this.state;
-      const when = (!newNote && state === noteState.EDITING) || (modal.open);
-      if (when) {
-        if (!newNote && state === noteState.EDITING) {
-          this.saveNote();
-        }
-        else if (modal.open) {
-          this.closeModal();
-        }
-      }
-      return !when;
-    });
+  // define when to block navigation
+  when = () =>{
+    const {state, newNote} = this.state;
+    const editing = (state === noteState.EDITING && this.changesMade());
+    const nNote = (newNote && this.changesMade());
+    return (editing || nNote);
   }
 
-  // block leaving the page
-  componentWillUnmount() {
-    this.unblock();
+  // define what to do when navigation is blocked
+  onBlock = () =>{
+    // this.saveNote();
+    this.props.openModal({
+      yesCallback: this.saveNote,
+      title: 'Unsaved changes',
+      message: 'Save changes before leaving?'
+    })
+  }
+
+  notEmpty = () =>{
+    const { title, body } = this.state;
+    return ( title !== '' || body !== '');
+  }
+
+  changesMade = () =>{
+    const { noteData, title, body } = this.state;
+    return ( noteData.body !== body || noteData.title !== title );
+  }
+
+  getNote = (id) => {
+    const { notes } = this.props;
+    return notes.find(note => note.id === id);
   }
 
   readState = () => {
@@ -114,18 +157,6 @@ class Note extends Component {
     });
   }
 
-  getNote = (id) => {
-    const { notes } = this.props;
-    return notes.find(note => note.id === id);
-  }
-
-  showMessage = (message) => {
-    this.setState({ message });
-    setTimeout(() => {
-      this.setState({ message: '' });
-    }, 1000)
-  }
-
   saveNote = () => {
     const { noteData, title, body, newNote } = this.state;
     // if a change has ocured proceede
@@ -145,7 +176,7 @@ class Note extends Component {
       } else {
         this.props.updateNote(noteData);
       }
-      this.showMessage('Note Saved');
+      this.props.showMessage('Note Saved');
     }
     // go to reading state
     this.readState();
@@ -164,32 +195,40 @@ class Note extends Component {
     this.setState({ title, body, undo: false });
   }
 
-  deleteNote = () => {
+  noteUpdateHandler = (name) =>{
     const { noteData } = this.state;
-    noteData.state = NoteData.State().deleted;
-    noteData.dTime = new Date();
+    const noteDataState = NoteData.State();
+    let state;
+    switch(name){
+      case ButtonName.ARCHIVE:
+      state = noteDataState.archived;
+      break;
+      case ButtonName.DELETE:
+      state = noteDataState.deleted;
+      break;
+      default:
+      state = noteDataState.normal;
+      break;
+    }
+    noteData.state = state;
+    if(state === noteDataState.deleted){
+      noteData.dTime = new Date();
+      this.props.updateNote(noteData);
+      this.props.unblock();
+      this.props.history.goBack();
+      return;
+    }
+    
     this.props.updateNote(noteData);
-    this.unblock();
-    this.props.history.goBack();
+    // update local state;
+    this.setState({noteData});
   }
 
   deleteNoteForever = () => {
     const { noteData } = this.state;
     this.props.deleteNote(noteData.id);
-    this.unblock();
+    this.props.unblock();
     this.props.history.push('/trash');
-  }
-
-  restoreNote = () => {
-    const { noteData } = this.state;
-    noteData.state = NoteData.State().normal;
-    this.props.updateNote(noteData);
-  }
-
-  archiveNote = () => {
-    const { noteData } = this.state;
-    noteData.state = NoteData.State().archived;
-    this.props.updateNote(noteData);
   }
 
   handleOnChange = (e) => {
@@ -219,89 +258,6 @@ class Note extends Component {
     });
   }
 
-  findName = (element) => {
-    while (true) {
-      const value = element.getAttribute('name');
-      if (value) {
-        return value;
-      }
-      element = element.parentElement;
-    }
-  }
-
-  openModal = (data) => {
-    const { modal } = this.state;
-    modal.open = true;
-    for (let key in data) {
-      modal[key] = data[key];
-    }
-    this.setState({ modal });
-  }
-
-  openModalHandler = (e) => {
-    const name = this.findName(e.target);
-    switch (name) {
-      case ButtonName.DELETE:
-        this.openModal({
-          yesCallback: this.deleteNote,
-          noCallBack: null,
-          title: 'Delete',
-          message: 'Move note to the trash can?'
-        });
-        break;
-      case ButtonName.DELETE_FOREVER:
-        this.openModal({
-          yesCallback: this.deleteNoteForever,
-          noCallBack: null,
-          title: 'Permanently delete',
-          message: 'Permanently delete note?'
-        });
-        break;
-      case ButtonName.RESTORE:
-        this.openModal({
-          yesCallback: this.restoreNote,
-          noCallBack: null,
-          title: 'RESTORE',
-          message: 'Do you want to restore note?'
-        });
-        break;
-      case ButtonName.UNDO:
-        this.openModal({
-          yesCallback: this.undoChanges,
-          noCallBack: null,
-          title: 'Undo',
-          message: 'Undo changes?'
-        });
-        break;
-      case ButtonName.ARCHIVE:
-        this.openModal({
-          yesCallback: this.archiveNote,
-          noCallBack: null,
-          title: 'Archive',
-          message: 'Archive note?'
-        });
-        break;
-      case ButtonName.UNARCHIVE:
-        this.openModal({
-          yesCallback: this.restoreNote,
-          noCallBack: null,
-          title: 'Unarchive',
-          message: 'Unarchive note?'
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  closeModal = () => {
-    const { modal } = this.state;
-    modal.open = false;
-    this.setState({
-      modal
-    })
-  }
-
   render() {
     const { redirect } = this.state;
     if (redirect)
@@ -309,7 +265,7 @@ class Note extends Component {
         <Redirect to="/" />
       );
     // get data from state
-    const { noteData, title, body, state, undo, newNote, message, modal } = this.state;
+    const { noteData, title, body, state, undo, newNote } = this.state;
     // store component props
     const headerProps = {
       title,
@@ -342,9 +298,6 @@ class Note extends Component {
       ref: input => (this.bodyInput = input),
     }
 
-    // adding the close function to modal properties
-    modal.handleClose = this.closeModal;
-    
     return (
       <React.Fragment>
         <Header {...headerProps} />
@@ -352,11 +305,6 @@ class Note extends Component {
           <NoteInfo {...infoProps}/>
           <TextArea {...textAreaProps}/>
         </Section>
-
-        <Modal
-          {...modal}
-        />
-        {(message !== '') && <Message>{message}</Message>}
       </React.Fragment>
     );
   }
@@ -379,4 +327,4 @@ const mapDispatchToProps = {
   updateNote
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Note);
+export default blockNavigation(messageControlls(openModalHandler(connect(mapStateToProps, mapDispatchToProps)(Note))));

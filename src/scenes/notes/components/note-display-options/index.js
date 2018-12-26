@@ -14,6 +14,10 @@ class NoteDisplayOptions extends Component{
   }
 
   openModal = () =>{
+    const { selectionMode } = this.props;
+    if(selectionMode)
+      return;
+      
     this.setState({modalOpen: true});
   }
 
@@ -53,7 +57,8 @@ class NoteDisplayOptions extends Component{
 }
 
 const mapStateToProps = (state) => ({
-  sort: state.sort
+  sort: state.sort,
+  selectionMode: state.selectionMode
 });
 
 export default connect(mapStateToProps,null)(NoteDisplayOptions);

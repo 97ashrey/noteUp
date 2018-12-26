@@ -11,7 +11,7 @@ import { moreThanDay, parseMonthDate, parseHours } from '../../services/time';
 
 function NoteItem(props) {
   const {noteData, ...restProps} = props;
-  const { id, body, cTime, dTime, selected} = noteData;
+  const { id, title, body, cTime, dTime, selected} = noteData;
   const path = `/note/${id}`;
   function getTime() {
     return (      
@@ -34,7 +34,7 @@ function NoteItem(props) {
       onContextMenu={preventContextMenu}
       component={Link} to={path}
       selected={selected} draggable={false} {...restProps}>
-      <span>{body.substr(0,10)}</span>
+      { (body !== '')? <span>{body.substr(0,10)}</span> : <span>{title.substr(0,10)}</span>}
       {getTime()}
     </NoteLink>
   )

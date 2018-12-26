@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import { setSort } from '../../../../actions/noteSortActions';
+import { setSelectionMode } from '../../../../actions/selectionModeActions';
 
 import NotesContainer from '../../../../components/NotesContainer';
 import NoteItem from '../../../../components/note-item';
@@ -28,7 +30,6 @@ class Notes extends Component {
     this.timerID = null;
     this.state = {
       notes: this.adaptNotes(),
-      selectionMode: false,
     }
   }
 
@@ -94,9 +95,7 @@ class Notes extends Component {
     notes[index].selected = selected ? false : true;
     this.setState({ notes });
     if (this.selectedNotesCount() <= 0) {
-      this.setState({
-        selectionMode: false
-      })
+      this.props.setSelectionMode(false);
     }
   }
 
@@ -105,8 +104,8 @@ class Notes extends Component {
     notes.forEach(note => note.selected = false);
     this.setState({
       notes,
-      selectionMode : false
     });
+    this.props.setSelectionMode(false);
   }
 
   selectAll = () =>{
@@ -121,22 +120,20 @@ class Notes extends Component {
   }
 
   hold = (id) => {
-    const { selectionMode } = this.state;
+    const { selectionMode } = this.props;
     if (selectionMode)
       return;
 
     // start a timeout
     this.timerID = setTimeout(() => {
-      this.setState({
-        selectionMode: true
-      })
+      this.props.setSelectionMode(true);
       this.noteSelectHandler(id);
       this.mDownEvent = true;
     }, 800);
   }
 
   release = (e,id) => {
-    const { selectionMode } = this.state;
+    const { selectionMode } = this.props;
     clearTimeout(this.timerID);
     if (this.mDownEvent) {
       e.preventDefault();
@@ -205,10 +202,10 @@ class Notes extends Component {
   }
 
   render() {
-    const { selectionMode, notes} = this.state;
-    const { view, page } = this.props;
+    const { notes} = this.state;
+    const { selectionMode, view, page } = this.props;
     const notesToRender = this.sortNotes(notes);
-    
+
     return (
       <React.Fragment>
         {
@@ -255,7 +252,8 @@ Notes.propTypes = {
 const mapStateToProps = (state) => ({
   notes: state.notes,
   view: state.view,
-  sort: state.sort
+  sort: state.sort,
+  selectionMode: state.selectionMode
 });
 
-export default connect(mapStateToProps, { setSort })(Notes);
+export default connect(mapStateToProps, { setSort, setSelectionMode })(Notes);

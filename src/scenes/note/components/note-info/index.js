@@ -11,9 +11,9 @@ import NoteData from '../../../../entities/NoteData';
 
 NoteInfo.propTypes = {
   state: PropTypes.string.isRequired,
-  mTime: PropTypes.object.isRequired,
-  dTime: PropTypes.object.isRequired,
-  cTime: PropTypes.object.isRequired,
+  mTime: PropTypes.object,
+  dTime: PropTypes.object,
+  cTime: PropTypes.object,
 }
 
 export default function NoteInfo({state, mTime, cTime, dTime}) {

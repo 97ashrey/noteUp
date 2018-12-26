@@ -1,4 +1,7 @@
 import React from 'react';
+
+import PropTypes from 'prop-types';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,7 +9,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const Modal = ({handleClose, open = false, title, message ,yesCallback, noCallback})=>{
+Modal.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  yesCallback: PropTypes.func,
+  noCallback: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+}
+
+Modal.defaultProps = {
+  open: false,
+  yesCallback: null,
+  noCallback: null
+}
+
+function Modal ({handleClose, open, title, message, yesCallback, noCallback}){
  
   function yesClick(){
     if(yesCallback){

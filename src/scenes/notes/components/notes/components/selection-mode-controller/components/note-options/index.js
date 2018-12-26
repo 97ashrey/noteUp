@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { updateNote, deleteNote } from '../../../../../../../../actions/notesActions';
 
 import OptionsWrapper from './components/OptionsWrapper';
-import Modal from '../../../../../../../../components/Modal';
+import openModalHandler from '../../../../../../../../HOC/openModalHandler';
 
 import NoteData from '../../../../../../../../entities/NoteData';
 import { ButtonName } from '../../../../../../../../services/constants';
@@ -14,42 +14,36 @@ class NoteOptions extends Component{
 
   constructor(props){
     super(props);
-    this.state={
-      modal: {
-        open: false,
-        yesCallback: null,
-        noCallBack: null,
-        title: '',
-        message: ''
+    
+    const { DELETE, DELETE_FOREVER, RESTORE, ARCHIVE, UNARCHIVE } = ButtonName;
+    const handler = {
+      [DELETE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(DELETE)},
+        title: 'Delete',
+        message: 'Move selected notes to the trash can?'
+      },
+      [DELETE_FOREVER] : {
+        yesCallback: this.premanentlyDelete,
+        title: 'Permanently delete',
+        message: 'Permanently delete slected notes?'
+      },
+      [RESTORE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(RESTORE)},
+        title: 'RESTORE',
+        message: 'Do you want to restore selected notes?'
+      },
+      [ARCHIVE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(ARCHIVE)},
+        title: 'Archive',
+        message: 'Archive selected notes?'
+      },
+      [UNARCHIVE] : {
+        yesCallback: ()=>{this.noteUpdateHandler(UNARCHIVE)},
+        title: 'Unarchive',
+        message: 'Unarchive selected notes?'
       }
     }
-  }
-
-  openModal = (data) => {
-    const { modal } = this.state;
-    modal.open = true;
-    for (let key in data) {
-      modal[key] = data[key];
-    }
-    this.setState({ modal });
-  }
-
-  closeModal = () => {
-    const { modal } = this.state;
-    modal.open = false;
-    this.setState({
-      modal
-    })
-  }
-
-  findName = (element) => {
-    while (true) {
-      const value = element.getAttribute('name');
-      if (value) {
-        return value;
-      }
-      element = element.parentElement;
-    }
+    this.openModalHandler = props.openModalHandler.bind(this,handler);
   }
 
   noteUpdateHandler = (name) =>{
@@ -61,23 +55,17 @@ class NoteOptions extends Component{
       case ButtonName.ARCHIVE:
       state = noteDataState.archived;
       break;
+      case ButtonName.DELETE:
+      state = noteDataState.deleted;
+      break;
       default:
       state = noteDataState.normal;
       break;
     }
     notes.forEach(note =>{
       note.state = state;
-      updateNote(note);
-    });
-    exit();
-  }
-
-  deleteNotes = () =>{
-    const {getSelectedNotes, updateNote ,exit} = this.props;
-    const notes = getSelectedNotes();
-    notes.forEach(note =>{
-      note.dTime = new Date();
-      note.state = NoteData.State().deleted;
+      if(state === noteDataState.deleted)
+        note.dTime = new Date();
       updateNote(note);
     });
     exit();
@@ -92,62 +80,8 @@ class NoteOptions extends Component{
     exit();
   }
 
-  
-
-  openModalHandler = (e) => {
-    const name = this.findName(e.target);
-    const noteUpdateHandler = this.noteUpdateHandler.bind(this,name);
-    switch (name) {
-      case ButtonName.DELETE:
-        this.openModal({
-          yesCallback: this.deleteNotes,
-          noCallBack: null,
-          title: 'Delete',
-          message: 'Move selected notes to the trash can?'
-        });
-        break;
-      case ButtonName.DELETE_FOREVER:
-        this.openModal({
-          yesCallback: this.premanentlyDelete,
-          noCallBack: null,
-          title: 'Permanently delete',
-          message: 'Permanently delete slected notes?'
-        });
-        break;
-      case ButtonName.RESTORE:
-        this.openModal({
-          yesCallback: noteUpdateHandler,
-          noCallBack: null,
-          title: 'RESTORE',
-          message: 'Do you want to restore selected notes?'
-        });
-        break;
-      case ButtonName.ARCHIVE:
-        this.openModal({
-          yesCallback: noteUpdateHandler,
-          noCallBack: null,
-          title: 'Archive',
-          message: 'Archive selected notes?'
-        });
-        break;
-      case ButtonName.UNARCHIVE:
-        this.openModal({
-          yesCallback: noteUpdateHandler,
-          noCallBack: null,
-          title: 'Unarchive',
-          message: 'Unarchive selected notes?'
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
   render(){
-    const {page} = this.props;
-    const {modal} = this.state;
-
-    modal.handleClose = this.closeModal;
+    const {page , bgcolor} = this.props;
 
     const buttonsProps = {
       page,
@@ -155,10 +89,9 @@ class NoteOptions extends Component{
     }
     return(
       <React.Fragment>
-        <OptionsWrapper>
+        <OptionsWrapper bgColor={bgcolor}>
           <Buttons {...buttonsProps} />
         </OptionsWrapper>
-        <Modal {...modal}/>
       </React.Fragment>
     );
   }
@@ -169,4 +102,4 @@ const mapDispatchToProps = {
   deleteNote
 }
 
-export default connect(null,mapDispatchToProps)(NoteOptions);
+export default openModalHandler(connect(null,mapDispatchToProps)(NoteOptions));

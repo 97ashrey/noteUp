@@ -9,9 +9,9 @@ HeaderWrapper.propTypes = {
   children: PropTypes.node
 }
 
-function HeaderWrapper({children}){
+function HeaderWrapper({children, position = 'static',color = 'default',...rest}){
   return (
-    <AppBar position="static" color="default">
+    <AppBar position={position} color={color} {...rest}>
       <ToolBar>
         {children}
       </ToolBar>

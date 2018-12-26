@@ -5,9 +5,7 @@ import Header from './components/Header';
 import Section from '../../components/Section';
 import NotesContainer from '../../components/NotesContainer';
 import NoteItem from '../../components/note-item';
-
-import  { page } from '../../services/constants';
-
+import NoNotes from '../../components/NoNotes';
 class Search extends Component {
   constructor(props){
     super(props);
@@ -32,11 +30,16 @@ class Search extends Component {
       <React.Fragment>
         <Header onChangeHandler={this.onChangeHandler}/>
         <Section>
-          <NotesContainer>
+          {
+            (notesToRender.length === 0)?
+            <NoNotes>Type parts of content or title of the note in search box</NoNotes>  
+            :
+            <NotesContainer>
             {notesToRender.map(note => 
               <NoteItem key={note.id} noteData={note}/>
             )}
-          </NotesContainer>
+            </NotesContainer>
+          }
         </Section>
       </React.Fragment>
     )
