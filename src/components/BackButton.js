@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import IconButton, {iconType} from './IconButton';
+import { pullLeft } from '../inline-styles';
 
 const BackButton = (props) => {
   function goBack() {
@@ -9,7 +10,7 @@ const BackButton = (props) => {
   }
   return (
     <IconButton 
-    style={{marginLeft: '-12px', marginRight: '10px'}}
+      style={pullLeft}
       icon={iconType.arrowBack}
       onClick={goBack}/>
   );

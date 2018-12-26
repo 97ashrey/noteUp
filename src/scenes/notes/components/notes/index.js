@@ -28,6 +28,7 @@ class Notes extends Component {
       }
 
     this.timerID = null;
+    this.holdTime = 800;
     this.state = {
       notes: this.adaptNotes(),
     }
@@ -88,6 +89,7 @@ class Notes extends Component {
     return this.getSelectedNotes().length;
   }
 
+  // togle the selection of the note when clicked or touched
   noteSelectHandler = (id) => {
     const { notes } = this.state;
     const index = this.getNoteIndex(id);
@@ -101,6 +103,7 @@ class Notes extends Component {
 
   exitSelectionMode = () =>{
     const {notes} = this.state;
+    // deselect all notes
     notes.forEach(note => note.selected = false);
     this.setState({
       notes,
@@ -129,19 +132,24 @@ class Notes extends Component {
       this.props.setSelectionMode(true);
       this.noteSelectHandler(id);
       this.mDownEvent = true;
-    }, 800);
+    }, this.holdTime);
   }
 
   release = (e,id) => {
     const { selectionMode } = this.props;
     clearTimeout(this.timerID);
+    /**
+     * Prevents deselection of the first slected note
+     * when selection mode is activated trough hold event
+     */
     if (this.mDownEvent) {
       e.preventDefault();
       this.mDownEvent = false;
       return;
     }
     if (selectionMode) {
-      e.preventDefault(); // disable routing
+      // don't go to /note page
+      e.preventDefault();
       // select or unselect note
       this.noteSelectHandler(id);
     } 
@@ -191,11 +199,11 @@ class Notes extends Component {
     const { notes } = this.state;
     const selectionControlls = {
       selectAll: this.selectAll,
-      exit: this.exitSelectionMode,
       count: this.selectedNotesCount,
       size: notes.length,
       getSelectedNotes: this.getSelectedNotes,
-      page
+      page,
+      exit: this.exitSelectionMode,
     }
 
     return <SelectionModeController {...selectionControlls}/>
@@ -242,11 +250,7 @@ Notes.defaultProps = {
 }
 
 Notes.propTypes = {
-  notes: PropTypes.array.isRequired,
-  view: PropTypes.string.isRequired,
-  sort: PropTypes.object.isRequired,
   filter: PropTypes.func.isRequired,
-  change: PropTypes.any
 }
 
 const mapStateToProps = (state) => ({

@@ -11,7 +11,6 @@ class NoteData {
     this.id = uuid();
     this.title = title;
     this.body = body;
-    this.color = "default";
     this.cTime = new Date();
     this.mTime = new Date();
     this.dTime = null;

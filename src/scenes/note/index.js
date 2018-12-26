@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 
 import { connect } from 'react-redux';
-import { createNote, deleteNote, updateNote } from '../../actions/notesActions';
+import { createNote, deleteNote, modifyNote, archiveNote, restoreNote, deleteNotePermanently } from '../../actions/notesActions';
 
 import Section from '../../components/Section';
 import Header from './components/header';
@@ -107,25 +107,21 @@ class Note extends Component {
 
   // define when to block navigation
   when = () =>{
-    const {state, newNote} = this.state;
-    const editing = (state === noteState.EDITING && this.changesMade());
-    const nNote = (newNote && this.changesMade());
-    return (editing || nNote);
+    const {state} = this.state;
+    return (state === noteState.EDITING && this.changesMade());
   }
 
   // define what to do when navigation is blocked
   onBlock = () =>{
-    // this.saveNote();
     this.props.openModal({
-      yesCallback: this.saveNote,
+      yesCallback: ()=>{
+        this.saveOnExit();
+        this.props.continueNavigation();
+      },
+      noCallback: this.props.continueNavigation,
       title: 'Unsaved changes',
       message: 'Save changes before leaving?'
     })
-  }
-
-  notEmpty = () =>{
-    const { title, body } = this.state;
-    return ( title !== '' || body !== '');
   }
 
   changesMade = () =>{
@@ -140,7 +136,8 @@ class Note extends Component {
 
   readState = () => {
     this.setState({
-      state: noteState.READING
+      state: noteState.READING,
+      undo: false
     });
   }
 
@@ -160,26 +157,34 @@ class Note extends Component {
   saveNote = () => {
     const { noteData, title, body, newNote } = this.state;
     // if a change has ocured proceede
-    if (!(noteData.title === title && noteData.body === body)) {
-      noteData.title = title;
-      noteData.body = body;
-      noteData.mTime = new Date();
-      this.setState({
-        undo: false
-      });
+    if (this.changesMade()) {
       // check if it is a new note
       if (newNote) {
+        noteData.title = title;
+        noteData.body = body;
         this.props.createNote(noteData);
+        
         this.setState({
           newNote: false
         });
       } else {
-        this.props.updateNote(noteData);
+        this.props.modifyNote(noteData.id,{title,body});
       }
       this.props.showMessage('Note Saved');
     }
     // go to reading state
     this.readState();
+  }
+
+  saveOnExit = () =>{
+    const { noteData, title, body, newNote } = this.state;
+    if (newNote) {
+      noteData.title = title;
+      noteData.body = body;
+      this.props.createNote(noteData);
+    } else {
+      this.props.modifyNote(noteData.id,{title,body});      
+    }
   }
 
   editNote = () => {
@@ -196,37 +201,25 @@ class Note extends Component {
   }
 
   noteUpdateHandler = (name) =>{
-    const { noteData } = this.state;
-    const noteDataState = NoteData.State();
-    let state;
+    const id = this.state.noteData.id;
     switch(name){
       case ButtonName.ARCHIVE:
-      state = noteDataState.archived;
+       this.props.archiveNote(id);
       break;
       case ButtonName.DELETE:
-      state = noteDataState.deleted;
+        this.props.deleteNote(id);
+        this.props.unblock();
+        this.props.history.goBack();
       break;
       default:
-      state = noteDataState.normal;
+        this.props.restoreNote(id);
       break;
     }
-    noteData.state = state;
-    if(state === noteDataState.deleted){
-      noteData.dTime = new Date();
-      this.props.updateNote(noteData);
-      this.props.unblock();
-      this.props.history.goBack();
-      return;
-    }
-    
-    this.props.updateNote(noteData);
-    // update local state;
-    this.setState({noteData});
   }
 
   deleteNoteForever = () => {
-    const { noteData } = this.state;
-    this.props.deleteNote(noteData.id);
+    const id = this.state.noteData.id;
+    this.props.deleteNotePermanently(id);
     this.props.unblock();
     this.props.history.push('/trash');
   }
@@ -271,6 +264,7 @@ class Note extends Component {
       title,
       noteDataState: noteData.state,
       state,
+      newNote,
       undo,
       onTitleChange: this.handleOnChange,
       saveNote: this.saveNote,
@@ -312,9 +306,6 @@ class Note extends Component {
 
 Note.propTypes = {
   notes: PropTypes.array.isRequired,
-  createNote: PropTypes.func.isRequired,
-  updateNote: PropTypes.func.isRequired,
-  deleteNote: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -324,7 +315,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   createNote,
   deleteNote,
-  updateNote
+  modifyNote,
+  archiveNote,
+  restoreNote,
+  deleteNotePermanently
 }
 
 export default blockNavigation(messageControlls(openModalHandler(connect(mapStateToProps, mapDispatchToProps)(Note))));

@@ -14,10 +14,11 @@ function blockNavigation(WrappedComponent){
     }
 
     componentDidMount(){
-      this.unblock = this.props.history.block(() => {
+      this.unblock = this.props.history.block((nextLocation) => {
         const when = this.state.when();
         if (when) {
           this.state.onBlock();
+          this.nextLocation = nextLocation;
         }
         return !when;
       });
@@ -25,6 +26,11 @@ function blockNavigation(WrappedComponent){
 
     componentWillUnmount(){
       this.unblock();
+    }
+
+    continueNavigation = () =>{
+      this.unblock();
+      this.props.history.push(this.nextLocation.pathname);
     }
 
     setWhen = (when) =>{
@@ -52,6 +58,7 @@ function blockNavigation(WrappedComponent){
         <WrappedComponent setWhen={this.setWhen} 
                           setOnBlock={this.setOnBlock}
                           unblock={this.unblock}
+                          continueNavigation={this.continueNavigation}
                           {...this.props} />
       );
     }

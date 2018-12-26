@@ -1,4 +1,4 @@
-import { CREATE_NOTE, DELETE_NOTE, DELETE_ALL_NOTES, UPDATE_NOTE } from './types';
+import { CREATE_NOTE, DELETE_NOTE, MODIFY_NOTE, ARCHIVE_NOTE, RESTORE_NOTE, DELETE_NOTE_PERMANENTLY, CLEAR_TRASH } from './types';
 
 export const createNote = (noteData) =>{
   return {
@@ -14,16 +14,37 @@ export const deleteNote = (id) =>{
   }
 }
 
-export const updateNote = (noteData) => {
-  return{
-    type: UPDATE_NOTE,
-    payload: noteData
+export const modifyNote = (id,noteContent) =>{
+  return {
+    type: MODIFY_NOTE,
+    payload: {id,noteContent}
   }
 }
 
-export const deleteAllNotes = () =>{
+export const archiveNote = (id) =>{
+  return {
+    type: ARCHIVE_NOTE,
+    payload: id
+  }
+}
+
+export const restoreNote = (id) =>{
+  return {
+    type: RESTORE_NOTE,
+    payload: id
+  }
+}
+
+export const deleteNotePermanently = (id) =>{
+  return {
+    type: DELETE_NOTE_PERMANENTLY,
+    payload: id
+  }
+}
+
+export const clearTrash = () =>{
   return{
-    type: DELETE_ALL_NOTES,
+    type: CLEAR_TRASH,
     payload: null
   }
 }

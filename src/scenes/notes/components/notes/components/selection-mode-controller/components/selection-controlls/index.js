@@ -3,15 +3,16 @@ import React from 'react';
 import ControllWraper from './components/ControllWraper';
 
 import IconButton, {iconType} from '../../../../../../../../components/IconButton';
+import {pullLeft} from '../../../../../../../../inline-styles';
 
-function SelectionControlls({exit,count,size,selectAll, bgcolor}){
+function SelectionControlls({exit,count,size,selectAll,bgcolor}){
 
   return (
-    <ControllWraper position="absolute" bgcolor={bgcolor} >
+    <ControllWraper position="absolute" bgcolor={bgcolor}>
       <IconButton icon={iconType.done} onClick={exit} color="inherit" 
-      style={{marginLeft: '-12px', marginRight: '10px'}}/>
-      <span>{count()}/{size}</span>
-      <IconButton icon={iconType.borderClear} onClick={selectAll} color="inherit" style={{display: 'block', marginLeft: 'auto'}}/>
+      style={pullLeft}/>
+      <span style={{flexGrow: 1}}>{count()}/{size}</span>
+      <IconButton icon={iconType.borderClear} onClick={selectAll} color="inherit"/>
     </ControllWraper>
   );
 }

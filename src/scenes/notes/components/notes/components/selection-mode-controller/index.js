@@ -4,10 +4,12 @@ import SelectionControlls from './components/selection-controlls';
 import NoteOptions from './components/note-options';
 
 function SelectionModeController({getSelectedNotes, page, exit, ...selectionControlls}){
+
+  const bgColor = "#ddd";
   return (
     <React.Fragment>
-      <SelectionControlls exit={exit} bgcolor="#ddd" {...selectionControlls}/>
-      <NoteOptions getSelectedNotes={getSelectedNotes} bgcolor="#ddd" page={page} exit={exit}/>
+      <SelectionControlls bgcolor={bgColor} exit={exit} {...selectionControlls}/>
+      <NoteOptions bgcolor={bgColor} getSelectedNotes={getSelectedNotes} page={page} exit={exit}/>
     </React.Fragment>
   )
 }

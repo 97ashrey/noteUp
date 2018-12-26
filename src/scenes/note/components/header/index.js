@@ -23,7 +23,7 @@ Header.propTypes = {
   openModal: PropTypes.func.isRequired,
 }
 
-function Header({ title, state, onTitleChange, undo, noteDataState, saveNote, editNote, openModal }) {
+function Header({ title, state, newNote ,onTitleChange, undo, noteDataState, saveNote, editNote, openModal }) {
   
   // store ui elements
   const UIElements = {
@@ -145,9 +145,13 @@ function Header({ title, state, onTitleChange, undo, noteDataState, saveNote, ed
         UIElements.btns.push(DeleteForeverButton());
       } else {
         UIElements.btns.push(EditButton());
-        UIElements.btns.push(DeleteButton());
-        (noteDataState === NoteData.State().archived)?
-        UIElements.btns.push(UnArchiveButton()): UIElements.btns.push(ArchiveButton());
+        if(!newNote){
+          UIElements.btns.push(DeleteButton());
+          (noteDataState === NoteData.State().archived) ?
+          UIElements.btns.push(UnArchiveButton()) 
+          : 
+          UIElements.btns.push(ArchiveButton());
+        }
       }
       break;
     // editing state

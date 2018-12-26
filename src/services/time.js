@@ -1,5 +1,3 @@
-const now = new Date();
-
 const dayMiliSeconds = 86400000;
 
 const days = [
@@ -31,7 +29,7 @@ export function moreThanDay(date) {
   // console.log(yesterday);
   // console.log(date);
   // return (yesterday.getDate() === date.getDate());
-  return (now - date) >= dayMiliSeconds;
+  return (Date.now() - date) >= dayMiliSeconds;
 }
 
 export function parseHours(date) {
@@ -61,7 +59,7 @@ export function parseDate(date, US = false) {
 }
 
 export function getTimePassed(date) {
-  const difference = (now - date) / 1000;
+  const difference = (Date.now() - date) / 1000;
   let minutes = 0,
     hours = 0,
     seconds = 0;

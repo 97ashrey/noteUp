@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteAllNotes } from '../../../../actions/notesActions';
+import { clearTrash } from '../../../../actions/notesActions';
 
 import Section from '../../../../components/Section';
 import NoteDisplayOptions from '../../components/note-display-options';
@@ -18,7 +18,7 @@ import withModalControlls from '../../../../HOC/modalControlls';
 class TrashCan extends Component {
   deleteClick = () =>{
     this.props.openModal({
-        yesCallback: this.props.deleteAllNotes,
+        yesCallback: this.props.clearTrash,
         title: 'Delete',
         message: 'Delete all notes in the trash can?'
     })
@@ -42,10 +42,10 @@ class TrashCan extends Component {
 }
 
 TrashCan.propTypes = {
-  deleteAllNotes: PropTypes.func.isRequired
+  clearTrash: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
-  deleteAllNotes
+  clearTrash
 }
 export default withSortPageSetter(page.trash)(withModalControlls(connect(null,mapDispatchToProps)(TrashCan)));

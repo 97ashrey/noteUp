@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch} from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import store from './store';
-
+import AppWrapper from './components/AppWrapper';
 import Main from './scenes/notes/scenes/main';
 import Archive from './scenes/notes/scenes/archive';
 import TrashCan from './scenes/notes/scenes/trash-can';
@@ -18,7 +18,8 @@ class App extends Component {
   render() {
     return (
       
-    <Provider store={store}>
+    <AppWrapper>
+      <Provider store={store}>
       <React.Fragment>
         <Router>
           <Switch>
@@ -34,6 +35,7 @@ class App extends Component {
         </Router>
       </React.Fragment>
     </Provider>
+    </AppWrapper>
       
     );
   }

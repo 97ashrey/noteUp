@@ -1,9 +1,13 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import IconButton, { iconType } from '../../../../../components/IconButton';
 import SideMenu from '../../../../../components/side-menu';
 import HeaderWrapper from '../../../../../components/HeaderWrapper';
+
+Header.propTypes = {
+  deleteClick: PropTypes.func.isRequired
+}
 
 function Header(props) {
   const { deleteClick } = props;

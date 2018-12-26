@@ -1,8 +1,10 @@
 export const CREATE_NOTE = "CREATE_NOTE";
 export const DELETE_NOTE = "DELETE_NOTE";
-export const DELETE_ALL_NOTES = "DELETE_ALL_NOTES";
-export const UPDATE_NOTE = "UPDATE_NOTE";
-export const GET_NOTES = "GET_NOTES";
+export const MODIFY_NOTE = "MODIFY_NOTE";
+export const ARCHIVE_NOTE = "ARCHIVE_NOTE";
+export const RESTORE_NOTE = "RESTORE_NOTE";
+export const DELETE_NOTE_PERMANENTLY = "DELETE_PERMANENTLY";
+export const CLEAR_TRASH = "CLEAR_TRASH";
 
 export const SET_VIEW = "SET_VIEW";
 

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { updateNote, deleteNote } from '../../../../../../../../actions/notesActions';
+import { archiveNote, restoreNote, deleteNote, deleteNotePermanently } from '../../../../../../../../actions/notesActions';
 
 import OptionsWrapper from './components/OptionsWrapper';
 import openModalHandler from '../../../../../../../../HOC/openModalHandler';
 
-import NoteData from '../../../../../../../../entities/NoteData';
 import { ButtonName } from '../../../../../../../../services/constants';
 
 import Buttons from './components/Buttons';
@@ -23,7 +22,7 @@ class NoteOptions extends Component{
         message: 'Move selected notes to the trash can?'
       },
       [DELETE_FOREVER] : {
-        yesCallback: this.premanentlyDelete,
+        yesCallback: ()=>{this.noteUpdateHandler(DELETE_FOREVER)},
         title: 'Permanently delete',
         message: 'Permanently delete slected notes?'
       },
@@ -47,35 +46,25 @@ class NoteOptions extends Component{
   }
 
   noteUpdateHandler = (name) =>{
-    const {getSelectedNotes, updateNote ,exit} = this.props;
+    const {getSelectedNotes, exit, archiveNote, deleteNote, restoreNote, deleteNotePermanently } = this.props;
     const notes = getSelectedNotes();
-    const noteDataState = NoteData.State();
-    let state;
+    let action;
     switch(name){
       case ButtonName.ARCHIVE:
-      state = noteDataState.archived;
+      action = archiveNote;
       break;
       case ButtonName.DELETE:
-      state = noteDataState.deleted;
+      action = deleteNote;
+      break;
+      case ButtonName.DELETE_FOREVER:
+      action = deleteNotePermanently
       break;
       default:
-      state = noteDataState.normal;
+      action = restoreNote;
       break;
     }
     notes.forEach(note =>{
-      note.state = state;
-      if(state === noteDataState.deleted)
-        note.dTime = new Date();
-      updateNote(note);
-    });
-    exit();
-  }
-
-  premanentlyDelete = () =>{
-    const {getSelectedNotes, deleteNote, exit} = this.props;
-    const notes = getSelectedNotes();
-    notes.forEach(note =>{
-      deleteNote(note.id);
+      action(note.id);
     });
     exit();
   }
@@ -88,18 +77,18 @@ class NoteOptions extends Component{
       clickHandler: this.openModalHandler
     }
     return(
-      <React.Fragment>
-        <OptionsWrapper bgcolor={bgcolor}>
-          <Buttons {...buttonsProps} />
-        </OptionsWrapper>
-      </React.Fragment>
+      <OptionsWrapper bgcolor={bgcolor}>
+        <Buttons {...buttonsProps} />
+      </OptionsWrapper>
     );
   }
 }
 
 const mapDispatchToProps = {
-  updateNote,
-  deleteNote
+  archiveNote, 
+  restoreNote, 
+  deleteNote, 
+  deleteNotePermanently
 }
 
 export default openModalHandler(connect(null,mapDispatchToProps)(NoteOptions));

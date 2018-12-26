@@ -1,4 +1,4 @@
-import { CREATE_NOTE, DELETE_NOTE, DELETE_ALL_NOTES, UPDATE_NOTE } from '../actions/types';
+import { CREATE_NOTE, DELETE_NOTE, MODIFY_NOTE, ARCHIVE_NOTE, RESTORE_NOTE, DELETE_NOTE_PERMANENTLY, CLEAR_TRASH } from '../actions/types';
 
 import NoteData from '../entities/NoteData';
 
@@ -18,7 +18,7 @@ export default function(state = initialState, action){
       state.push(action.payload);
       return state;
     
-      case DELETE_NOTE:
+      case DELETE_NOTE_PERMANENTLY:
       return (()=>{
         const id = action.payload;
         const index = getIndex(id);
@@ -27,15 +27,47 @@ export default function(state = initialState, action){
         return state;
       })();
    
-    case DELETE_ALL_NOTES:
+    case CLEAR_TRASH:
       return state.filter(note => note.state !== NoteData.State().deleted)
     
-    case UPDATE_NOTE:
+    case MODIFY_NOTE:
       return (()=>{
-        const noteData = action.payload;
-        const index = getIndex(noteData.id);
+        const {id, noteContent } = action.payload;
+        const index = getIndex(id);
         if(index !== -1)
-          state[index] = noteData;
+          for(const key in noteContent)
+            state[index][key] = noteContent[key];
+        state[index].mTime = new Date();
+        return state;
+      })();
+
+      case ARCHIVE_NOTE:
+      return (()=>{
+        const id = action.payload;
+        const index = getIndex(id);
+        if(index !== -1)
+          state[index].state = NoteData.State().archived;
+        return state;
+      })();
+
+      case DELETE_NOTE:
+      return (()=>{
+        const id = action.payload;
+        const index = getIndex(id);
+        if(index !== -1)
+          state[index].state = NoteData.State().deleted;
+          state[index].dTime = new Date();
+        return state;
+      })();
+
+      case RESTORE_NOTE:
+      return (()=>{
+        const id = action.payload;
+        const index = getIndex(id);
+        if(index !== -1)
+          state[index].state = NoteData.State().normal;
+          if(state[index].dTtime)
+            state[index].dTtime = null;
         return state;
       })();
     default: 

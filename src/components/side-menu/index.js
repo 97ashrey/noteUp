@@ -4,6 +4,8 @@ import IconButton, {iconType} from '../IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import NavList from './components/List';
 
+import { pullLeft } from '../../inline-styles';
+
 class SideMenu extends Component {
   state = {
     left: false,
@@ -19,7 +21,7 @@ class SideMenu extends Component {
     return (
       <React.Fragment>
         <IconButton 
-          style={{marginLeft: '-12px', marginRight: '10px'}}
+          style={pullLeft}
           icon={iconType.menu}
           color="inherit" aria-label="Menu"
           onClick={this.toggleDrawer('left', true)}/>

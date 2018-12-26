@@ -1,7 +1,7 @@
-import { CREATE_NOTE, DELETE_NOTE, DELETE_ALL_NOTES ,UPDATE_NOTE, SET_SORT, SET_SORT_PAGE ,SET_VIEW } from '../actions/types';
+import { CREATE_NOTE, DELETE_NOTE, MODIFY_NOTE, ARCHIVE_NOTE, RESTORE_NOTE, DELETE_NOTE_PERMANENTLY, CLEAR_TRASH, SET_SORT, SET_SORT_PAGE ,SET_VIEW } from '../actions/types';
 
 const localStorageMiddleware = ({getState}) => { // <--- FOCUS HERE
-  const interest = [CREATE_NOTE, DELETE_NOTE, UPDATE_NOTE, DELETE_ALL_NOTES, SET_SORT, SET_VIEW, SET_SORT_PAGE];
+  const interest = [CREATE_NOTE, DELETE_NOTE, MODIFY_NOTE, ARCHIVE_NOTE, RESTORE_NOTE, DELETE_NOTE_PERMANENTLY, CLEAR_TRASH, SET_SORT, SET_VIEW, SET_SORT_PAGE];
   return (next) => (action) => {
       const result = next(action);
       const type = result.type;
