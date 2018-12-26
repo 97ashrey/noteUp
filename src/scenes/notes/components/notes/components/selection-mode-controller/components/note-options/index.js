@@ -89,7 +89,7 @@ class NoteOptions extends Component{
     }
     return(
       <React.Fragment>
-        <OptionsWrapper bgColor={bgcolor}>
+        <OptionsWrapper bgcolor={bgcolor}>
           <Buttons {...buttonsProps} />
         </OptionsWrapper>
       </React.Fragment>
