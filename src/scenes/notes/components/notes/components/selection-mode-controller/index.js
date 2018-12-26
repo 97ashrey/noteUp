@@ -7,7 +7,7 @@ function SelectionModeController({getSelectedNotes, page, exit, ...selectionCont
   return (
     <React.Fragment>
       <SelectionControlls exit={exit} bgcolor="#ddd" {...selectionControlls}/>
-      <NoteOptions getSelectedNotes={getSelectedNotes} bgColor="#ddd" page={page} exit={exit}/>
+      <NoteOptions getSelectedNotes={getSelectedNotes} bgcolor="#ddd" page={page} exit={exit}/>
     </React.Fragment>
   )
 }
