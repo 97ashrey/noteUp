@@ -1,13 +1,13 @@
 {
-  "main.css": "/noteUp/static/css/main.e6b2282c.chunk.css",
-  "main.js": "/noteUp/static/js/main.1b498e11.chunk.js",
-  "main.js.map": "/noteUp/static/js/main.1b498e11.chunk.js.map",
-  "static/js/1.8a8e6bf0.chunk.js": "/noteUp/static/js/1.8a8e6bf0.chunk.js",
-  "static/js/1.8a8e6bf0.chunk.js.map": "/noteUp/static/js/1.8a8e6bf0.chunk.js.map",
+  "main.css": "/noteUp/static/css/main.ddf76af5.chunk.css",
+  "main.js": "/noteUp/static/js/main.d038377e.chunk.js",
+  "main.js.map": "/noteUp/static/js/main.d038377e.chunk.js.map",
+  "static/js/1.103ba65a.chunk.js": "/noteUp/static/js/1.103ba65a.chunk.js",
+  "static/js/1.103ba65a.chunk.js.map": "/noteUp/static/js/1.103ba65a.chunk.js.map",
   "runtime~main.js": "/noteUp/static/js/runtime~main.511ad6e6.js",
   "runtime~main.js.map": "/noteUp/static/js/runtime~main.511ad6e6.js.map",
-  "static/css/main.e6b2282c.chunk.css.map": "/noteUp/static/css/main.e6b2282c.chunk.css.map",
+  "static/css/main.ddf76af5.chunk.css.map": "/noteUp/static/css/main.ddf76af5.chunk.css.map",
   "index.html": "/noteUp/index.html",
-  "precache-manifest.519a9296429eaa0facc6b4dc421478db.js": "/noteUp/precache-manifest.519a9296429eaa0facc6b4dc421478db.js",
+  "precache-manifest.993e020e2e3182278db9dc90d13db487.js": "/noteUp/precache-manifest.993e020e2e3182278db9dc90d13db487.js",
   "service-worker.js": "/noteUp/service-worker.js"
 }
