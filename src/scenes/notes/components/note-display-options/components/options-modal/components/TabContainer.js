@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
 
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 function TabContainer(props) {
   return (
     <Typography component="div">
@@ -11,8 +15,6 @@ function TabContainer(props) {
   );
 }
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+
 
 export default TabContainer;

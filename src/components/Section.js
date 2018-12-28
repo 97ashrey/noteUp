@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 export const padding = "5px"
 
 const Section = styled.section`
@@ -7,6 +6,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   padding: ${padding};
+  background-color: ${props => (props.bgcolor)? props.bgcolor: 'transparent'};
 `;
 
 export default Section;

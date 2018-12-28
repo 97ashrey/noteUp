@@ -10,10 +10,10 @@ import { getTimePassed, parseDate, parseHours, parseMonthDate } from '../../../.
 import NoteData from '../../../../entities/NoteData';
 
 NoteInfo.propTypes = {
-  state: PropTypes.string.isRequired,
-  mTime: PropTypes.object,
-  dTime: PropTypes.object,
-  cTime: PropTypes.object,
+  state: PropTypes.oneOf([noteState.EDITING, noteState.READING, NoteData.State().deleted]),
+  mTime: PropTypes.instanceOf(Date).isRequired,
+  dTime: PropTypes.instanceOf(Date).isRequired,
+  cTime: PropTypes.instanceOf(Date).isRequired,
 }
 
 export default function NoteInfo({state, mTime, cTime, dTime}) {

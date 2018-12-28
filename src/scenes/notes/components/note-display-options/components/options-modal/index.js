@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,6 +11,8 @@ import Tab from '@material-ui/core/Tab';
 import TabContainer from './components/TabContainer';
 import ViewOptionsList from './components/ViewOptionsList';
 import SortOptionsList from './components/SortOptionsList';
+
+
 
 class OptionsModal extends React.Component {
   state = {
@@ -52,6 +54,9 @@ class OptionsModal extends React.Component {
     );
   }
 }
-
+OptionsModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired
+}
 
 export default OptionsModal;

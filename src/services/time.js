@@ -41,7 +41,7 @@ export function parseHours(date) {
 }
 
 export function parseMonthDate(date) {
-  const month = months[date.getMonth()].toUpperCase();
+  const month = months[date.getMonth()];
   const dateNumber = date.getDate();
   return month + " " + dateNumber;
 }

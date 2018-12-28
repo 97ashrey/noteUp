@@ -5,10 +5,10 @@ import ControllWraper from './components/ControllWraper';
 import IconButton, {iconType} from '../../../../../../../../components/IconButton';
 import {pullLeft} from '../../../../../../../../inline-styles';
 
-function SelectionControlls({exit,count,size,selectAll,bgcolor}){
+function SelectionControlls({exit,count,size,selectAll}){
 
   return (
-    <ControllWraper position="absolute" bgcolor={bgcolor}>
+    <ControllWraper position="absolute">
       <IconButton icon={iconType.done} onClick={exit} color="inherit" 
       style={pullLeft}/>
       <span style={{flexGrow: 1}}>{count()}/{size}</span>

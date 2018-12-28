@@ -219,7 +219,7 @@ class Notes extends Component {
         {
         (notesToRender.length === 0) ?
         <NoNotes>
-          { page === Page.main && 'Create some notes' }
+          { page === Page.main && 'Click on + to create some notes' }
           { page === Page.archive && 'Archive is empty' }
           { page === Page.trash && 'Trash can is empty' }
         </NoNotes>

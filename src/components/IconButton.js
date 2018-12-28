@@ -34,7 +34,7 @@ export const iconType = {
 }
 
 IconButton.propTpes= {
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.oneOf(Object.values(iconType)).isRequired
 }
 
 function IconButton ({icon, block, ...restProps}){
@@ -76,8 +76,10 @@ function IconButton ({icon, block, ...restProps}){
     case iconType.add:
       i = <AddIcon/>
       break;
-    default:
+    case iconType.undo:
       i = <Undo />
+    break;
+    default:
       break;
   }
   return(

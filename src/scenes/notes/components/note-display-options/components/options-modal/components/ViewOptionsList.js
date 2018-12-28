@@ -1,4 +1,5 @@
 import React,  { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setView } from '../../../../../../../actions/noteViewActions';
 
@@ -10,6 +11,8 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import BorderAllIcon from '@material-ui/icons/BorderAll';
 
 import { viewType } from '../../../../../../../services/constants';
+
+
 
 class ViewOptionsList extends Component{
 
@@ -43,6 +46,14 @@ class ViewOptionsList extends Component{
     </List>
     );
   }
+}
+
+ViewOptionsList.propTypes = {
+  clickCallback: PropTypes.func,
+}
+
+ViewOptionsList.defaultProps = {
+  clickCallback: () => false
 }
 
 const mapDispatchToProps = {

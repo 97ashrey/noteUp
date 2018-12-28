@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'; 
 import { connect } from 'react-redux';
 import { setSort } from '../../../../../../../actions/noteSortActions';
@@ -12,6 +13,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import Badge from '@material-ui/core/Badge';
 
 import { sortBy } from '../../../../../../../services/constants';
+
 
 
 class SortOptionsList extends Component{
@@ -64,6 +66,14 @@ class SortOptionsList extends Component{
       </List>
     );
   }
+}
+
+SortOptionsList.propTypes = {
+  clickCallback: PropTypes.func,
+}
+
+SortOptionsList.defaultProps = {
+  clickCallback: () => false
 }
 
 const mapStateToProps = (state) => ({

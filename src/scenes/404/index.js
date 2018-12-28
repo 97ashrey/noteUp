@@ -20,7 +20,7 @@ function NotFound() {
           Page not found
           </Typography>
         <Typography variant="h5">
-          <Link to="/">Go to main page</Link>
+          It looks like you tried to access a page that doesn't exist. Use the menu to reach your destination or <Link to="/">go to main page</Link>.
         </Typography>
       </Section>
     </React.Fragment>

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import {padding} from './Section';
 
+import PropTypes from 'prop-types';
+
 const NotesContainer = styled.div`
   flex: 1;
   margin-top: ${padding};
@@ -41,6 +43,10 @@ function grid(){
       margin-bottom: 0px;
     }
   `;
+}
+
+NotesContainer.propTypes = {
+  grid: PropTypes.bool
 }
 
 export default NotesContainer;

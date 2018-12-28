@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 
 import { connect } from 'react-redux';
@@ -18,6 +17,7 @@ import NoteData from '../../entities/NoteData';
 import { noteState } from './services/constants';
 import { ButtonName } from '../../services/constants'
 
+import {withTheme} from '@material-ui/core/styles';
 
 class Note extends Component {
   constructor(props) {
@@ -124,16 +124,6 @@ class Note extends Component {
     })
   }
 
-  changesMade = () =>{
-    const { noteData, title, body } = this.state;
-    return ( noteData.body !== body || noteData.title !== title );
-  }
-
-  getNote = (id) => {
-    const { notes } = this.props;
-    return notes.find(note => note.id === id);
-  }
-
   readState = () => {
     this.setState({
       state: noteState.READING,
@@ -154,6 +144,28 @@ class Note extends Component {
     });
   }
 
+  changesMade = () =>{
+    const { noteData, title, body } = this.state;
+    return ( noteData.body !== body || noteData.title !== title );
+  }
+
+  getNote = (id) => {
+    const { notes } = this.props;
+    return notes.find(note => note.id === id);
+  }
+
+  saveOnExit = () =>{
+    const { noteData, title, body, newNote } = this.state;
+    if (newNote) {
+      noteData.title = title;
+      noteData.body = body;
+      this.props.createNote(noteData);
+    } else {
+      this.props.modifyNote(noteData.id,{title,body});      
+    }
+  }
+
+  // Button click handlers
   saveNote = () => {
     const { noteData, title, body, newNote } = this.state;
     // if a change has ocured proceede
@@ -174,17 +186,6 @@ class Note extends Component {
     }
     // go to reading state
     this.readState();
-  }
-
-  saveOnExit = () =>{
-    const { noteData, title, body, newNote } = this.state;
-    if (newNote) {
-      noteData.title = title;
-      noteData.body = body;
-      this.props.createNote(noteData);
-    } else {
-      this.props.modifyNote(noteData.id,{title,body});      
-    }
   }
 
   editNote = () => {
@@ -224,6 +225,7 @@ class Note extends Component {
     this.props.history.push('/trash');
   }
 
+  // input handler
   handleOnChange = (e) => {
     const { newNote } = this.state;
     const { title, body } = this.state.noteData;
@@ -259,7 +261,7 @@ class Note extends Component {
       );
     // get data from state
     const { noteData, title, body, state, undo, newNote } = this.state;
-    // store component props
+    
     const headerProps = {
       title,
       noteDataState: noteData.state,
@@ -295,17 +297,13 @@ class Note extends Component {
     return (
       <React.Fragment>
         <Header {...headerProps} />
-        <Section>
+        <Section bgcolor={this.props.theme.palette.primary.light}>
           <NoteInfo {...infoProps}/>
           <TextArea {...textAreaProps}/>
         </Section>
       </React.Fragment>
     );
   }
-}
-
-Note.propTypes = {
-  notes: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -321,4 +319,4 @@ const mapDispatchToProps = {
   deleteNotePermanently
 }
 
-export default blockNavigation(messageControlls(openModalHandler(connect(mapStateToProps, mapDispatchToProps)(Note))));
+export default blockNavigation(messageControlls(openModalHandler(connect(mapStateToProps, mapDispatchToProps)(withTheme()(Note)))));

@@ -70,14 +70,14 @@ class NoteOptions extends Component{
   }
 
   render(){
-    const {page , bgcolor} = this.props;
+    const {page} = this.props;
 
     const buttonsProps = {
       page,
       clickHandler: this.openModalHandler
     }
     return(
-      <OptionsWrapper bgcolor={bgcolor}>
+      <OptionsWrapper>
         <Buttons {...buttonsProps} />
       </OptionsWrapper>
     );

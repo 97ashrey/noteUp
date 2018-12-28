@@ -9,7 +9,7 @@ const AppWrapper = styled.section`
   position: relative;
   @media screen and (min-width: 576px){
     &{
-      width: 60%;
+      width: 600px;
       margin: 0 auto;
       box-shadow: 0px 0px 2px 2px #ccc;
     }

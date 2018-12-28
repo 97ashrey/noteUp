@@ -2,10 +2,7 @@ import { CREATE_NOTE, DELETE_NOTE, MODIFY_NOTE, ARCHIVE_NOTE, RESTORE_NOTE, DELE
 
 import NoteData from '../entities/NoteData';
 
-// const initialState = [
-//     new NoteData("Najveci naslov ikad osmisljen lmao","Tekstics neki")
-//   ]
-// initialState[0].id = "1";
+
 const initialState = [];
 export default function(state = initialState, action){
 
@@ -66,8 +63,6 @@ export default function(state = initialState, action){
         const index = getIndex(id);
         if(index !== -1)
           state[index].state = NoteData.State().normal;
-          if(state[index].dTtime)
-            state[index].dTtime = null;
         return state;
       })();
     default: 

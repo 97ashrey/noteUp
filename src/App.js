@@ -12,13 +12,15 @@ import Search from './scenes/search';
 import About from './scenes/about';
 import Test from './components/Test';
 import NotFound from './scenes/404';
-// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import defaultTheme from './themes/defaultTheme';
 
 class App extends Component {
   render() {
     return (
       
-    <AppWrapper>
+    <MuiThemeProvider theme={defaultTheme}>
+      <AppWrapper>
       <Provider store={store}>
       <React.Fragment>
         <Router>
@@ -36,6 +38,7 @@ class App extends Component {
       </React.Fragment>
     </Provider>
     </AppWrapper>
+    </MuiThemeProvider>
       
     );
   }

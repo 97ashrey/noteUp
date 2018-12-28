@@ -13,7 +13,7 @@ class NoteData {
     this.body = body;
     this.cTime = new Date();
     this.mTime = new Date();
-    this.dTime = null;
+    this.dTime = new Date();
     this.state = NoteData.State().normal;
   }
 

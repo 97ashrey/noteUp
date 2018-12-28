@@ -7,8 +7,7 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between; 
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 3px;
+  // border-bottom: 1px solid #ccc;
 `;
 
 export default InfoWrapper;

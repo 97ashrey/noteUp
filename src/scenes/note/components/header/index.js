@@ -7,6 +7,7 @@ import HeaderWrapper from '../../../../components/HeaderWrapper';
 import BackButton from '../../../../components/BackButton';
 import IconButton, {iconType} from '../../../../components/IconButton';
 import NoteTitle from './components/NoteTitle';
+// import TitleInput from './components/TitleInput';
 
 import { noteState } from '../../services/constants';
 import NoteData from '../../../../entities/NoteData';
@@ -16,6 +17,7 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
   undo: PropTypes.bool.isRequired,
+  newNote: PropTypes.bool.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   noteDataState: PropTypes.string.isRequired,
   saveNote: PropTypes.func.isRequired,
@@ -120,15 +122,16 @@ function Header({ title, state, newNote ,onTitleChange, undo, noteDataState, sav
   function TitleInput(){
     return(
       <Input
-        style={{width: "30%"}}
+        style={{width: '40%'}}
         autoComplete="off"
         name="title"
         value={title}
-        onChange={onTitleChange}
-        inputProps={{
-          'aria-label': 'Description',
-        }}
-      />
+        onChange={onTitleChange} />
+      // <TitleInput         
+      // autoComplete="off"
+      // name="title"
+      // value={title}
+      // onChange={onTitleChange}/>
     );
   }
 
@@ -171,7 +174,7 @@ function Header({ title, state, newNote ,onTitleChange, undo, noteDataState, sav
                   </div>)
   
   return (
-    <HeaderWrapper>
+    <HeaderWrapper color="primary">
       <BackButton/>
         {noteTitle}
         {buttons}

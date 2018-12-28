@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 import HeaderWrapper from '../../../../../../../../../components/HeaderWrapper';
 
+import { withTheme } from '@material-ui/core/styles';
+
 const ControllWrapper = styled(HeaderWrapper)`
   &&{
     box-shadow: none;
-    ${props => (props.bgcolor)? 'background-color:' + props.bgcolor + ';' : ''}
+    background-color: ${props => props.theme.palette.primary.dark};
   }
 `;
 
 
-export default ControllWrapper;
+export default withTheme()(ControllWrapper);

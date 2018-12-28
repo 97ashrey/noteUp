@@ -12,7 +12,8 @@ const BackButton = (props) => {
     <IconButton 
       style={pullLeft}
       icon={iconType.arrowBack}
-      onClick={goBack}/>
+      onClick={goBack}
+      color="inherit"/>
   );
 }
 
