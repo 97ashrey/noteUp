@@ -127,11 +127,6 @@ function Header({ title, state, newNote ,onTitleChange, undo, noteDataState, sav
         name="title"
         value={title}
         onChange={onTitleChange} />
-      // <TitleInput         
-      // autoComplete="off"
-      // name="title"
-      // value={title}
-      // onChange={onTitleChange}/>
     );
   }
 
