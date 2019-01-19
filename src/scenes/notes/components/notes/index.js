@@ -28,7 +28,7 @@ class Notes extends Component {
       }
 
     this.timerID = null;
-    this.holdTime = 800;
+    this.holdTime = 600;
     this.state = {
       notes: this.adaptNotes(),
     }

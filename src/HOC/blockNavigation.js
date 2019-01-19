@@ -45,7 +45,7 @@ function blockNavigation(WrappedComponent){
 
     setOnBlock = (onBlock) =>{
       if(!(typeof onBlock === 'function')){
-        console.error(`when argument needs to be a function`);
+        console.error(`onBlock argument needs to be a function`);
         return;
       }
       this.setState({

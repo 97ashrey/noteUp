@@ -34,8 +34,15 @@ function selected(theme){
       background-color: ${theme.palette.primary.dark};
     }
 
+    // another quick fix for sticky hovers
     &&:hover{
-      background-color: ${theme.palette.primary.main};
+      background-color: ${theme.palette.primary.dark};
+    }
+
+    @media screen and (min-width: 576px){
+      &&:hover{
+        background-color: ${theme.palette.primary.main};
+      }
     }
   `;
 }

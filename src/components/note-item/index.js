@@ -42,7 +42,7 @@ function NoteItem({noteData, ...restProps}) {
       selected={selected} 
       draggable={false} 
       {...restProps}>
-      <span>{(body !== '')? body.substr(0,10): title.substr(0,10)}</span>
+      <span>{(title === '')? body.substr(0,10): title.substr(0,10)}</span>
       {getTime()}
     </NoteLink>
   )
