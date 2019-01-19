@@ -1,5 +1,5 @@
 # Noteup
-Application for writing small notes and reminders.
+Application for writing small notes and reminders. Application is hosted on [github](https://97ashrey.github.io/noteUp/#/)
 ## Motivation
 Reasoning behind this application is to test and improve my react knowledge. I frequently take notes on my phone during short lectures or when i have a series of tasks to complete. Thus i decided to reverse engineer some functionalities and UI design of [Color Note](https://play.google.com/store/apps/details?id=com.socialnmobile.dictapps.notepad.color.note) mobile app which i use. 
 ## Built with
