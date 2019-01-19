@@ -1,3 +1,8 @@
+/**
+ * Higher order component that provides methods for opening and closing
+ * modal window.
+ */
+
 import React, { Component } from 'react';
 
 import Modal from '../components/Modal';

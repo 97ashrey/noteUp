@@ -1,3 +1,6 @@
+/**
+ * Component handles deleting, archving ... of the selected notes
+ */
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';

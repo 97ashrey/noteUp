@@ -1,3 +1,8 @@
+/**
+ * Higher order component that will block user from leaving the page
+ * when condition to do so is met.
+ */
+
 import React , { Component } from 'react';
 import { withRouter } from 'react-router';
 

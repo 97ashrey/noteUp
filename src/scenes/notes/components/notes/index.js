@@ -1,3 +1,9 @@
+/**
+ * Component is responsible for filtering of the notes depending on the page,
+ * it also adds click and hold options for the note items allowing user to
+ * enter "Selection mode" in which user can select multiple notes and then
+ * delete them, archive them, restore them etc..
+ */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 
@@ -85,7 +91,7 @@ class Notes extends Component {
     return notes.filter(note => note.selected === true);
   }
 
-  selectedNotesCount = () => {
+  getSelectedNotesCount = () => {
     return this.getSelectedNotes().length;
   }
 
@@ -96,7 +102,7 @@ class Notes extends Component {
     const selected = notes[index].selected;
     notes[index].selected = selected ? false : true;
     this.setState({ notes });
-    if (this.selectedNotesCount() <= 0) {
+    if (this.getSelectedNotesCount() <= 0) {
       this.props.setSelectionMode(false);
     }
   }
@@ -199,7 +205,7 @@ class Notes extends Component {
     const { notes } = this.state;
     const selectionControlls = {
       selectAll: this.selectAll,
-      count: this.selectedNotesCount,
+      count: this.getSelectedNotesCount,
       size: notes.length,
       getSelectedNotes: this.getSelectedNotes,
       page,

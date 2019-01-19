@@ -1,3 +1,6 @@
+/**
+ * Reusable wrapper for the various header components troughout the project
+ */
 import React from 'react';
 
 import PropTypes from 'prop-types';

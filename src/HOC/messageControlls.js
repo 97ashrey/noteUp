@@ -1,3 +1,8 @@
+/**
+ * Higher order component providing methods for showing and closing 
+ * message overlay.
+ */
+
 import React, { Component } from 'react';
 
 import Message from '../components/Message';

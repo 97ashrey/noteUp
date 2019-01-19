@@ -1,3 +1,7 @@
+/**
+ * Component controlls how note-items are being displayed
+ * Grid or List view
+ */
 import styled from 'styled-components';
 
 import {padding} from './Section';

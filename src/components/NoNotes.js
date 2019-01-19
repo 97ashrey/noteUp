@@ -1,3 +1,7 @@
+/**
+ * Component that is displayed when there are no notes in a specific
+ * application page
+ */
 import styled from 'styled-components';
 
 const NoNotes = styled.div`

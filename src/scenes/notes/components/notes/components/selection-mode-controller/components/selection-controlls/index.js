@@ -1,3 +1,6 @@
+/**
+ * Component handles exiting selection mode and sellecting all notes at once
+ */
 import React from 'react';
 
 import ControllWraper from './components/ControllWraper';

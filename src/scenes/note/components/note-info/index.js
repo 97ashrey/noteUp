@@ -1,3 +1,8 @@
+/**
+ * This component is responsible for displaying various informations of the note,
+ * such as time of its creation, time since last modification, and indicators for 
+ * when user is editing the note.
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 

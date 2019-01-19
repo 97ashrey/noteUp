@@ -1,3 +1,7 @@
+/**
+ * Component renders the various controlls depending on the state of the note and 
+ * passes event handlers from Notes component to those controlls.
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,7 +11,6 @@ import HeaderWrapper from '../../../../components/HeaderWrapper';
 import BackButton from '../../../../components/BackButton';
 import IconButton, {iconType} from '../../../../components/IconButton';
 import NoteTitle from './components/NoteTitle';
-// import TitleInput from './components/TitleInput';
 
 import { noteState } from '../../services/constants';
 import NoteData from '../../../../entities/NoteData';

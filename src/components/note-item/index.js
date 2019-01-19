@@ -1,3 +1,9 @@
+/**
+ * Component is used as a link to a specific note.
+ * It also displays parts of the note,
+ * and time passed since note has been created or deleted
+ */
+
 import React from 'react'
 import { Link } from 'react-router-dom';
 

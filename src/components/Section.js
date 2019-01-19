@@ -1,3 +1,7 @@
+/**
+ * Reusable component to display the content of applications page.
+ * It always takes the rest of available space
+ */
 import styled from 'styled-components';
 export const padding = "5px"
 

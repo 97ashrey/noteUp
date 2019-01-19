@@ -1,3 +1,7 @@
+/**
+ * This component is responsible for displaying the actual note and it's content.
+ * It also provides controlls for editing, deleting, archiving and undoing changes.
+ */
 import React, { Component } from 'react'
 import { Redirect } from 'react-router';
 
@@ -43,7 +47,7 @@ class Note extends Component {
         message: 'Move note to the trash can?'
       },
       [DELETE_FOREVER] : {
-        yesCallback: this.deleteNoteForever,
+        yesCallback: this.deleteNotePermanently,
         title: 'Permanently delete',
         message: 'Permanently delete note?'
       },
@@ -166,6 +170,7 @@ class Note extends Component {
   }
 
   // Button click handlers
+  
   saveNote = () => {
     const { noteData, title, body, newNote } = this.state;
     // if a change has ocured proceede
@@ -218,7 +223,7 @@ class Note extends Component {
     }
   }
 
-  deleteNoteForever = () => {
+  deleteNotePermanently = () => {
     const id = this.state.noteData.id;
     this.props.deleteNotePermanently(id);
     this.props.unblock();

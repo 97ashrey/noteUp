@@ -1,3 +1,7 @@
+/**
+ * Class to represent notes in the system
+ */
+
 import uuid from 'uuid';
 
 const state = {

@@ -1,3 +1,10 @@
+/**
+ * Higher order component that provides a method for opening modal window
+ * when user presses delete, undo, archive button etc..
+ * All of these actions result in a modal opening with their specific actions
+ * on yes and no button clicks. 
+ */
+
 import React, { Component } from 'react';
 import withModalControlls from './modalControlls';
 
@@ -17,9 +24,11 @@ function openModalHandler(WrappedComponent) {
       }
     }
 
-    /* this method was created with intetion so that handler object can be passed
-    *  when this functions is binded
-    */
+    /**
+     * This method was created with intention to pass handler argument when
+     * function is binded in the component that needs it.
+     * Depending on the name attribute of the button that was clicked, modal window * will open.
+     */
     openModalHandler = (handler,event) => {
       const { openModal } = this.props;
       const name = this.findName(event.target);

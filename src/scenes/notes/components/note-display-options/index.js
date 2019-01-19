@@ -1,3 +1,6 @@
+/**
+ * Component opens the modal window which controlls sorting and viewing options.
+ */
 import React, {Component} from 'react'
 import { connect } from 'react-redux';
 import BlockButton from '../../../../components/BlockButton';
