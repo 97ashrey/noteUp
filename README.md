@@ -9,6 +9,7 @@ Reasoning behind this application is to test and improve my react knowledge. I f
  - [Styled components](https://www.styled-components.com/)
 ## Features
 Applications has full crud (create, read, update, delete) capabilities. You can also archive notes, chose between sorting options (alphabetically, time of creation, etc..), change how they are displayed (grid, list). If you end up taking to many notes there is a search options to help.
+[Overal app look](https://imgur.com/fGafh2Z)
 ## Prerequisites
 Nodejs should be installed on the machine you are using.
 ## Installation
