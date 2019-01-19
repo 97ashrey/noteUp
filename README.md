@@ -23,9 +23,10 @@ Applications has full crud (create, read, update, delete) capabilities. You can 
 If you want to run this on your machine clone the repository, open the root of the project and run **npm install** to get all the dependencies. This was built with [create-react-app](https://github.com/facebook/create-react-app) so after installing is finished just run **npm run start**.
 ## Project structure
 This section will explain some of the major folders in the project.
-"components" folder contains global components that can be used by any other component in the component tree.
-"scenes" folder contains all of "pages" for the application.
-"services" folder contains utility functions and constants
+- "components" folder contains global components that can be used by any other component in the component tree.
+- "scenes" folder contains all of "pages" for the application.
+- "services" folder contains utility functions and constants
+
 If a component consists of other components and services that are used and built only for this one component, a folder with a name of the component is created. It contains index.js file and components and services folder containing those "special made" components and services.
 Because of this you will see a lot of index.js files in the project structure so don't be confused by it.
 ## Conclusion
