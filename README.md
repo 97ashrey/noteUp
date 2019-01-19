@@ -18,7 +18,7 @@ Applications has full crud (create, read, update, delete) capabilities. You can 
 </p>
 
 ## Prerequisites
-Nodejs should be installed on the machine you are using.
+[Nodejs](https://nodejs.org/en/) should be installed on the machine you are using.
 ## Installation
 If you want to run this on your machine clone the repository, open the root of the project and run **npm install** to get all the dependencies. This was built with [create-react-app](https://github.com/facebook/create-react-app) so after installing is finished just run **npm run start**.
 ## Project structure
